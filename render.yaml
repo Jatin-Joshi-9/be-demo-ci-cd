@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: be-demo-ci-cd
+    runtime: docker
+    image:
+      url: docker.io/jatinjoshi9/be-demo-ci-cd:latest
+
+    # Render will pull the latest image on each deploy-hook trigger
+    dockerCommand: java -jar app.jar
+
+    plan: free          # change to 'starter' or higher for production
+
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SERVER_PORT
+        value: 8080
+      # Add your DB / JWT secrets here as Render environment variables
+      # - key: SPRING_DATASOURCE_URL
+      #   sync: false
+      # - key: SPRING_DATASOURCE_USERNAME
+      #   sync: false
+      # - key: SPRING_DATASOURCE_PASSWORD
+      #   sync: false
+
+    healthCheckPath: /actuator/health
